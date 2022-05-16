@@ -1,0 +1,27 @@
+// zo kan je het volgens mij doen
+
+const getData = async (language) => {
+        let url = 'https://bosmaarten.nl/api/projects';
+        let url2 = 'https://bosmaarten.nl/api/projects-content';
+        if (language) {
+            url += '?language=' + language;
+        }
+
+        let response;
+        let response2;
+        await Promise.all([
+            fetch(url).then(resp => response = resp),
+            fetch(url2).then(resp => response2 = resp)
+        ]);
+
+        const data1 = await response.json();
+        const data2 = await response2.json();
+
+        let tempProjData = mergeData(data1, data2);
+
+        // console.log('data', tempProjData); 
+
+        // sets the data in a variable so it can be acces for the map()
+        setProjectInfo(tempProjData);
+        setProjects(data1);
+    };
